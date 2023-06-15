@@ -1,48 +1,73 @@
-const inputBox = document.getElementById("input-box");
-const listTaks = document.getElementById("listTaks");
-const btnsubmit = document.getElementById("submit");
-
-const list = [
-    { title: "fun js", isRead: true },
-  {title: "cool DOM", isRead: false }
-]
 
 
-//#3
-const createListElement = (list) => {
-  const listItem = document.createElement("li");
-  listTaks.textContent = list.title;
-  // conditional styling if the book is read make it red
-  listTaks.style.color = list.isRead ? "red" : "green";
-  // if we want to interact with each li we need to add event listener on EVERY li
-  listTaks.addEventListener("click", (event) => {
-    console.log("Hello", event.target.textContent);
-  });
-  return listTaks;
-};
+const btnClick = document.getElementById("submit");
+const todolistItems = document.getElementById("listTaks");
+const inputbox = document.getElementById("input-box");
 
-//Click event 
+var close = document.getElementsByClassName("close");
+var myNodelist = document.getElementsByTagName("LI");
 
-const render = () => {
-    // to prevent repeted titles every render we need to clear the list with innerHtml
-    listTaks.innerHTML = "";
-  
-    list.forEach((book) => {
-      const item = createListElement(list);
-      listTaks.appendChild(item);
-    });
-};
 
-btnsubmit.addEventListener("add",(event) => {
-    event.preventDefault();
-    console.log("js is working")
 
+const mydata = [];
+
+// Click event by click on button
+btnClick.addEventListener("click",e => {
+    e.preventDefault();
+    updateArray();
+    makemylist();
 })
 
-render();
+// Array showing in li List
+function makemylist(){
+   todolistItems.innerHTML = ""
 
+    for (i=0; i< mydata.length ; i++){
+        var li = document.createElement('li');
+        li.innerText = mydata[i];
+        todolistItems.appendChild(li);
 
+        // Create a "close" button and append it to each list item
 
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
 
+        // Click on a close button to hide the current list item
+       
+        close[i].onclick = function() {
+        var div = this.parentElement;
+        div.style.display = "none";
+        
+      }
 
+        // Add a "checked" symbol when clicking on a list item
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+        if (ev.target.tagName === 'LI') {
+            ev.target.classList.toggle('checked');
+            console.log("yupp")  
+        }
+        }, false);
+
+         console.log("printing makemylist array",mydata)
+    }
+  
+}
+
+//when I press on button I want to add element in my array
+
+function updateArray(){
+    if(inputbox.value === ''){
+        alert("you must write something!");
+    } else {
+        //adding value in box
+        boxvalue = document.getElementById("input-box").value
+        mydata.push(boxvalue);
+        console.log("printing updateArray",mydata)
+    }
+    inputbox.value='';
+}
 
